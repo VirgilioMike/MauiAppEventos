@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MauiAppEventos.Models"
+             x:Class="MauiAppEventos.Views.CadastroEvento"
+             x:DataType="models:Evento"
+             Title="Cadastro de Evento"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource Secondary}">
+
+    <ContentPage.Resources>
+        <models:NumeroConverter x:Key="NumeroConverter" />
+
+        <Style x:Key="Rotulo" TargetType="Label">
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="{StaticResource Tertiary}" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="15"
+                             Spacing="12">
+
+            <Image Source="evento_logo.png"
+                   HeightRequest="90"
+                   Aspect="AspectFit" />
+
+            <Label Text="Cadastro de Eventos"
+                   FontFamily="Kalam"
+                   FontSize="30"
+                   HorizontalTextAlignment="Center"
+                   TextColor="{StaticResource Primary}" />
+
+            <Border Padding="15"
+                    StrokeShape="RoundRectangle 16"
+                    Stroke="{StaticResource Primary}"
+                    BackgroundColor="{StaticResource White}">
+                <VerticalStackLayout Spacing="8">
+
+                    <Label Text="Nome do evento" Style="{StaticResource Rotulo}" />
+                    <Entry x:Name="txt_nome"
+                           Placeholder="Ex.: Feira de Tecnologia"
+                           Text="{Binding Nome}" />
+
+                    <Label Text="Local do evento" Style="{StaticResource Rotulo}" />
+                    <Entry x:Name="txt_local"
+                           Placeholder="Ex.: Auditório da ETEC"
+                           Text="{Binding Local}" />
+
+                    <Grid ColumnDefinitions="*, *"
+                          RowDefinitions="Auto, Auto"
+                          ColumnSpacing="10">
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Data de início"
+                               Style="{StaticResource Rotulo}" />
+                        <DatePicker Grid.Row="1" Grid.Column="0"
+                                    Format="dd/MM/yyyy"
+                                    Date="{Binding DataInicio}" />
+
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="Data de término"
+                               Style="{StaticResource Rotulo}" />
+                        <DatePicker Grid.Row="1" Grid.Column="1"
+                                    Format="dd/MM/yyyy"
+                                    Date="{Binding DataTermino}" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*, *"
+                          RowDefinitions="Auto, Auto"
+                          ColumnSpacing="10">
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Participantes"
+                               Style="{StaticResource Rotulo}" />
+                        <Entry Grid.Row="1" Grid.Column="0"
+                               x:Name="txt_participantes"
+                               Placeholder="Ex.: 50"
+                               Keyboard="Numeric"
+                               Text="{Binding NumeroParticipantes, Converter={StaticResource NumeroConverter}}" />
+
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="Custo por participante (R$)"
+                               Style="{StaticResource Rotulo}" />
+                        <Entry Grid.Row="1" Grid.Column="1"
+                               x:Name="txt_custo"
+                               Placeholder="Ex.: 35,50"
+                               Keyboard="Numeric"
+                               Text="{Binding CustoPorParticipante, Converter={StaticResource NumeroConverter}}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="15"
+                    StrokeShape="RoundRectangle 16"
+                    StrokeThickness="0"
+                    BackgroundColor="{StaticResource Tertiary}">
+                <Grid ColumnDefinitions="*, *"
+                      RowDefinitions="Auto, Auto">
+                    <Label Grid.Row="0" Grid.Column="0"
+                           Text="Duração"
+                           HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource Secondary}" />
+                    <Label Grid.Row="1" Grid.Column="0"
+                           Text="{Binding Duracao.Days, StringFormat='{0} dia(s)'}"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource White}">
+                        <Label.Triggers>
+                            <!-- Término antes do início: não mostra duração negativa -->
+                            <DataTrigger TargetType="Label"
+                                         Binding="{Binding DatasValidas}"
+                                         Value="False">
+                                <Setter Property="Text" Value="Datas inválidas" />
+                                <Setter Property="TextColor" Value="#FFB300" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+
+                    <Label Grid.Row="0" Grid.Column="1"
+                           Text="Custo total"
+                           HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource Secondary}" />
+                    <Label Grid.Row="1" Grid.Column="1"
+                           Text="{Binding CustoTotal, StringFormat='{0:C2}'}"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource White}" />
+                </Grid>
+            </Border>
+
+            <Button Text="Ver Resumo do Evento"
+                    CornerRadius="20"
+                    Clicked="btn_resumo_Clicked" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

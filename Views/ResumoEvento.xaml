@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MauiAppEventos.Models"
+             x:Class="MauiAppEventos.Views.ResumoEvento"
+             x:DataType="models:Evento"
+             Title="Resumo do Evento"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{StaticResource Secondary}">
+
+    <ContentPage.Resources>
+        <Style x:Key="Rotulo" TargetType="Label">
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="{StaticResource Tertiary}" />
+        </Style>
+
+        <Style x:Key="Valor" TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource Primary}" />
+            <Setter Property="HorizontalTextAlignment" Value="End" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="15"
+                             Spacing="12"
+                             VerticalOptions="Center">
+
+            <Image Source="evento_logo.png"
+                   HeightRequest="90"
+                   Aspect="AspectFit" />
+
+            <Label Text="Resumo do Evento"
+                   FontFamily="KalamBold"
+                   FontSize="20"
+                   HorizontalTextAlignment="Center"
+                   TextColor="{StaticResource Tertiary}" />
+
+            <Label Text="{Binding Nome}"
+                   FontFamily="Kalam"
+                   FontSize="36"
+                   HorizontalTextAlignment="Center"
+                   TextColor="{StaticResource Primary}" />
+
+            <Border Padding="15"
+                    StrokeShape="RoundRectangle 16"
+                    Stroke="{StaticResource Primary}"
+                    BackgroundColor="{StaticResource White}">
+                <Grid ColumnDefinitions="Auto, *"
+                      RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto"
+                      RowSpacing="12"
+                      ColumnSpacing="10">
+
+                    <Label Grid.Row="0" Grid.Column="0" Text="Local:" Style="{StaticResource Rotulo}" />
+                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Local}" Style="{StaticResource Valor}" />
+
+                    <Label Grid.Row="1" Grid.Column="0" Text="Data de início:" Style="{StaticResource Rotulo}" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding DataInicio, StringFormat='{0:dd/MM/yyyy}'}" Style="{StaticResource Valor}" />
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="Data de término:" Style="{StaticResource Rotulo}" />
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding DataTermino, StringFormat='{0:dd/MM/yyyy}'}" Style="{StaticResource Valor}" />
+
+                    <Label Grid.Row="3" Grid.Column="0" Text="Duração:" Style="{StaticResource Rotulo}" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Duracao.Days, StringFormat='{0} dia(s)'}" Style="{StaticResource Valor}" />
+
+                    <Label Grid.Row="4" Grid.Column="0" Text="Participantes:" Style="{StaticResource Rotulo}" />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding NumeroParticipantes}" Style="{StaticResource Valor}" />
+
+                    <Label Grid.Row="5" Grid.Column="0" Text="Custo por participante:" Style="{StaticResource Rotulo}" />
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding CustoPorParticipante, StringFormat='{0:C2}'}" Style="{StaticResource Valor}" />
+                </Grid>
+            </Border>
+
+            <Border Padding="15"
+                    StrokeShape="RoundRectangle 16"
+                    StrokeThickness="0"
+                    BackgroundColor="{StaticResource Tertiary}">
+                <VerticalStackLayout>
+                    <Label Text="Custo total do evento"
+                           HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource Secondary}" />
+                    <Label Text="{Binding CustoTotal, StringFormat='{0:C2}'}"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource White}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="Voltar"
+                    CornerRadius="20"
+                    Clicked="btn_voltar_Clicked" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
